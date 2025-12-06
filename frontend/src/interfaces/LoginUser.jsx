@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   collection,
   query,
@@ -26,6 +27,7 @@ export default function LoginUser() {
   const [modoRegistro, setModoRegistro] = useState(false);
 
   const coleccionUsuarios = collection(db, "Usuario");
+  const navigate = useNavigate();
 
   // ------------------------------------------------
   // FUNCIÓN PARA MANEJAR EL LOGIN
@@ -55,6 +57,9 @@ export default function LoginUser() {
       }
 
       alert(`Bienvenido ${usuario.Nombre} ✨`);
+      navigate("/Menuusuario", {
+  state: { nombre: usuario.Nombre }
+});
       // Redirigir aquí a dashboard si se desea
 
     } catch (err) {
