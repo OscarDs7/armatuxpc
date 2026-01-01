@@ -20,8 +20,13 @@ export default function LoginAdmin() {
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
+<<<<<<< HEAD
       alert("Bienvenido Administrador");
       navigate("/Menuusuario")
+=======
+      alert("Bienvenido Administrador!");
+      navigate("/check-admin", { state: { nombre: "Administrador" } });
+>>>>>>> main
     } catch (err) {
       console.error(err);
       setError("Correo o contraseña incorrectos.");

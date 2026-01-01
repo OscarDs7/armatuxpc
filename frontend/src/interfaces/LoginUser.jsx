@@ -11,6 +11,7 @@ import { sendPasswordResetEmail } from "firebase/auth";
 import { auth, db } from "../utilidades/firebase";
 import fondoProyecto from "../imagenes/fondo1.jpg"; // imagen de fondo del proyecto
 import BackButton from "../utilidades/BackButton"; // Botón para regresar al menú de roles
+import { useNavigate } from "react-router-dom";
 
 import "../estilos/LoginUser.css";
 import logoUser from "../imagenes/LogoUser.png";
@@ -26,6 +27,11 @@ export default function LoginUser() {
 
   const [modoRegistro, setModoRegistro] = useState(false);
 
+  const navigate = useNavigate(); // Navegación entre rutas
+
+  // ------------------------------------------------
+  // REFERENCIA A LA COLECCIÓN DE USUARIOS
+  // ------------------------------------------------
   const coleccionUsuarios = collection(db, "Usuario");
   const navigate = useNavigate();
 
@@ -45,7 +51,7 @@ export default function LoginUser() {
       // Verificar si el usuario existe por correo
       if (querySnap.empty) {
         manejarIntentoFallido();
-        return setError("El usuario no existe.");
+        return setError("El correo no está registrado o es incorrecto.");
       }
       // Obtener datos del usuario
       const usuario = querySnap.docs[0].data();
@@ -53,7 +59,7 @@ export default function LoginUser() {
       // Validar contraseña
       if (usuario.Contrasena !== password) {
         manejarIntentoFallido();
-        return setError("Contraseña incorrecta.");
+        return setError("La contraseña es incorrecta.");
       }
 
       alert(`Bienvenido ${usuario.Nombre} ✨`);
@@ -61,6 +67,7 @@ export default function LoginUser() {
   state: { nombre: usuario.Nombre }
 });
       // Redirigir aquí a dashboard si se desea
+      navigate("/check-user", { state: { nombre: usuario.Nombre } });
 
     } catch (err) {
       console.error(err);
