@@ -11,7 +11,6 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswor
 import { auth, db } from "../utilidades/firebase";
 import fondoProyecto from "../imagenes/fondo1.jpg"; // imagen de fondo del proyecto
 import BackButton from "../utilidades/BackButton"; // Botón para regresar al menú de roles
-import { useNavigate } from "react-router-dom";
 
 import "../estilos/LoginUser.css";
 import logoUser from "../imagenes/LogoUser.png";
@@ -26,9 +25,6 @@ export default function LoginUser() {
   const [intentos, setIntentos] = useState(0);
 
   const [modoRegistro, setModoRegistro] = useState(false);
-
-  const navigate = useNavigate(); // Navegación entre rutas
-
   // ------------------------------------------------
   // REFERENCIA A LA COLECCIÓN DE USUARIOS
   // ------------------------------------------------
@@ -52,27 +48,8 @@ export default function LoginUser() {
     const q = query(coleccionUsuarios, where("UID", "==", uid));
     const querySnap = await getDocs(q);
 
-<<<<<<< HEAD
-      // Validar contraseña
-      if (usuario.Contrasena !== password) {
-        manejarIntentoFallido();
-        return setError("La contraseña es incorrecta.");
-      }
-
-      alert(`Bienvenido ${usuario.Nombre} ✨`);
-      navigate("/Menuusuario", {
-  state: { nombre: usuario.Nombre }
-});
-      // Redirigir aquí a dashboard si se desea
-      navigate("/check-user", { state: { nombre: usuario.Nombre } });
-
-    } catch (err) {
-      console.error(err);
-      setError("Error al iniciar sesión.");
-=======
     if (querySnap.empty) {
       return setError("No se encontró tu perfil en la base de datos.");
->>>>>>> main
     }
 
     const usuario = querySnap.docs[0].data(); // Obtener datos del usuario
